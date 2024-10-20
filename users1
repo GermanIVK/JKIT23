@@ -1,0 +1,25 @@
+#!/bin/bash
+if [ "$#" -lt 2 ]; then
+	echo ""
+	exit 1
+fi
+
+GROUP_NAME=$1
+
+if ! getent group "$GROUP_NAME" > /dev/null; then
+	echo "grupp $GROUP_NAME..."
+	/usr/sbin/groupadd $GROUP_NAME
+else
+	echo ""
+fi
+shift
+for username in "$@"; do
+	if id "$username" &>/dev/null; then
+		echo " $GROUP_NAME... "
+	/usr/sbin/usermod -aG $GROUP_NAME $username
+	else
+		echo ""
+		/usr/sbin/useradd -m -G $GROUP_NAME $username
+fi
+done
+echo "finish"

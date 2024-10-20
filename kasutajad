@@ -1,0 +1,31 @@
+#!/bin/bash
+# chto delaet etot blok?
+if [ "$#" -lt 2 ];then
+	echo "You must pass at least 2 arguments"
+	exit 1
+fi
+GROUP_NAME=$1
+#chto delaet etot blok?
+if ! getent group "$GROUP_NAME" > /dev/null;then
+	echo "Create a group $GROUP_NAME"
+	/usr/sbin/groupadd $GROUP_NAME
+else
+	echo "The group $GROUP_NAME already exists"
+fi
+#chto delaet etot blok?
+#shift
+FILE_NAME=$2
+while IFS=read -r username;do
+if [ -z "username" ];then
+continue
+fi
+#chto delaet etot blok?
+if id "$username" &>/dev/null;then
+	echo "The user $username already exists, add him to the group $GROUP_NAME"
+	/usr/sbin/usermod -aG $GROUP_NAME $username
+else
+	echo "The user $username does not exists, create and add it to the group $GROUP_NAME"
+	/usr/sbin/useradd -m -G $GROUP_NAME $username
+fi
+done <$FILE_NAME
+echo "Script completed succesfully"

@@ -1,21 +1,21 @@
 #!/bin/besh
-echo "что сканируем? subnet или ip?"
+echo "Mida skaneerime? Kirjuta palun üks sõna, 'subnet', kui tahad skaneerida alamvõrku või 'ip', kui tahad skaneerida konkreetsete IP-d?"
 read scan
 
 if [ "$scan" = "subnet" ]; then
-echo "введите subnet:"
+echo "Sisesta subnet:"
 read sub
 
-echo "введите port:"
+echo "Sisesta port:"
 read port
 
 nmap -p $part -sT $sub -oG res
 
-cat res |grep open >result
+cat res | grep open > result
 cat result
 
 else
-echo "введите IP:"
+echo "Sisesta IP:"
 read ip
 nmap -Pn $ip -oN resultip
 cat resultip

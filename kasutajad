@@ -1,25 +1,25 @@
 #!/bin/bash
-# chto delaet etot blok?
+# Kirjuta kommentaari, mida teeb see skripti osa?
 if [ "$#" -lt 2 ];then
 	echo "You must pass at least 2 arguments"
 	exit 1
 fi
 GROUP_NAME=$1
-#chto delaet etot blok?
+# Kirjuta, mida teeb see skripti osa?
 if ! getent group "$GROUP_NAME" > /dev/null;then
 	echo "Create a group $GROUP_NAME"
 	/usr/sbin/groupadd $GROUP_NAME
 else
 	echo "The group $GROUP_NAME already exists"
 fi
-#chto delaet etot blok?
+#Mida teeb see skripti osa?
 #shift
 FILE_NAME=$2
 while IFS=read -r username;do
 if [ -z "username" ];then
 continue
 fi
-#chto delaet etot blok?
+# Mida teeb see skripti osa?
 if id "$username" &>/dev/null;then
 	echo "The user $username already exists, add him to the group $GROUP_NAME"
 	/usr/sbin/usermod -aG $GROUP_NAME $username
